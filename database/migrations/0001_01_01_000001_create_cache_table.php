@@ -27,9 +27,9 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+ function down(): void
     {
-        Schema::dropIfExists('cache');
         Schema::dropIfExists('cache_locks');
+        Schema::dropIfExists('cache');
     }
 };
