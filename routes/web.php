@@ -33,4 +33,8 @@ Route::middleware(['auth'])->group(function () {
     // Admin bisa CRUD NotificationGuide, tapi untuk user hanya view
 });
 
+
+Route::resource('notification-guides', NotificationGuideController::class);
+
+
 require __DIR__.'/auth.php';
