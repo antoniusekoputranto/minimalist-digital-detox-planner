@@ -24,11 +24,17 @@ class DetoxPlan extends Model
         'end_date' => 'date',
     ];
 
+    /**
+     * Relasi ke model User (setiap DetoxPlan dimiliki oleh satu user)
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Relasi ke OfflineActivity (satu DetoxPlan bisa punya banyak aktivitas offline)
+     */
     public function offlineActivities()
     {
         return $this->hasMany(OfflineActivity::class);

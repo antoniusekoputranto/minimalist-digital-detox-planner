@@ -35,7 +35,6 @@ class DetoxPlanController extends Controller
 
     public function show(DetoxPlan $detoxPlan)
     {
-        // Pastikan pengguna memiliki akses ke rencana ini
         if ($detoxPlan->user_id !== Auth::id()) {
             abort(403);
         }

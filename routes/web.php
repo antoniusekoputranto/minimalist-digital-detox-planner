@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DetoxPlanController;
 use App\Http\Controllers\OfflineActivityController;
 use App\Http\Controllers\NotificationGuideController;
@@ -11,6 +11,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', [DetoxPlanController::class, 'index'])->name('dashboard');
 
     // Routes untuk DetoxPlan
@@ -21,20 +22,22 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/detox-plans/{detoxPlan}', [DetoxPlanController::class, 'destroy'])->name('detox-plans.destroy');
     Route::get('/detox-plans/{detoxPlan}', [DetoxPlanController::class, 'show'])->name('detox-plans.show');
 
+    // Full resource routes untuk OfflineActivity
+    Route::resource('offline-activities', OfflineActivityController::class);
 
-    // Routes untuk OfflineActivity
-    Route::post('/detox-plans/{detoxPlan}/activities', [OfflineActivityController::class, 'store'])->name('offline-activities.store');
-    Route::put('/offline-activities/{offlineActivity}', [OfflineActivityController::class, 'update'])->name('offline-activities.update');
-    Route::delete('/offline-activities/{offlineActivity}', [OfflineActivityController::class, 'destroy'])->name('offline-activities.destroy');
-
-    // Routes untuk NotificationGuide
+    // Routes untuk NotificationGuide (hanya view untuk user biasa)
     Route::get('/notification-guides', [NotificationGuideController::class, 'index'])->name('notification-guides.index');
     Route::get('/notification-guides/{notificationGuide}', [NotificationGuideController::class, 'show'])->name('notification-guides.show');
-    // Admin bisa CRUD NotificationGuide, tapi untuk user hanya view
+
+    // Routes untuk Profile
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
-Route::resource('notification-guides', NotificationGuideController::class);
-
+// Jika ingin memberikan akses CRUD penuh untuk NotificationGuide (misalnya untuk admin)
+Route::middleware(['auth', 'can:manage-notification-guides'])->group(function () {
+    Route::resource('notification-guides', NotificationGuideController::class)->except(['index', 'show']);
+});
 
 require __DIR__.'/auth.php';

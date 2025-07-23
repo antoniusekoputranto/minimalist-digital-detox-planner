@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\DetoxPlan;
+use App\Models\NotificationGuide;
+use App\Models\OfflineActivity;
 
 class User extends Authenticatable
 {
@@ -22,16 +24,32 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
+    /**
+     * Relasi ke DetoxPlan
+     */
     public function detoxPlans()
     {
         return $this->hasMany(DetoxPlan::class);
+    }
+
+    /**
+     * Relasi ke NotificationGuide
+     */
+    public function notificationGuides()
+    {
+        return $this->hasMany(NotificationGuide::class);
+    }
+
+    /**
+     * Relasi ke OfflineActivity
+     */
+    public function offlineActivities()
+    {
+        return $this->hasMany(OfflineActivity::class);
     }
 }

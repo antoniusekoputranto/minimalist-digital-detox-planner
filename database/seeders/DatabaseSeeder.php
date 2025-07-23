@@ -17,10 +17,17 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         // Membuat satu user dengan data spesifik
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password123'), // Ganti dengan password yang aman
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        //     'password' => Hash::make('password123'), // Ganti dengan password yang aman
+        // ]);
+
+        $this->call([
+            UserSeeder::class,
+            DetoxPlanSeeder::class,
+            OfflineActivitySeeder::class,
+            NotificationGuideSeeder::class,
         ]);
     }
 }

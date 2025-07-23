@@ -21,6 +21,9 @@ class OfflineActivity extends Model
         'is_completed' => 'boolean',
     ];
 
+    /**
+     * Relasi ke DetoxPlan
+     */
     public function detoxPlan()
     {
         return $this->belongsTo(DetoxPlan::class);
